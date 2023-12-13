@@ -35,7 +35,7 @@ if(isset($_POST['submit'])) {
     $beer_name= filter_var($beer_name, FILTER_SANITIZE_STRING);
     if((strlen(trim($beer_name)) < 2) || (strlen($beer_name) > 40)) {
         $do_i_proceed = False;
-        $message .= "<p> Please enter an attraction that is between 2-40 characters</p>";
+        $message .= "<p> Please enter a Beer Name that is between 2-40 characters</p>";
     }
 
     // validate Brewery Name
@@ -106,7 +106,7 @@ if(isset($_POST['submit'])) {
             }
         } else {
             $valid = 0;
-            $msg .= "<p>File upload failed</p>";
+            $message .= "<p>File upload failed</p>";
         }
 
         if($_FILES['myfile']['size'] > (5 * 1024 * 1024)){
@@ -122,13 +122,15 @@ if(isset($_POST['submit'])) {
             $thisWidth = "200";
 
 
-            createImageCopy($thisFile, $thisFolder, $thisWidth, 1);
+            // createImageCopy($thisFile, $thisFolder, $thisWidth, 1);
+            createSquareImageCopy($thisFile, $thisFolder, $thisWidth);
 
 
 
             $thisFolder = "image600/";
             $thisWidth = "600";
-            createImageCopy($thisFile, $thisFolder, $thisWidth, 0);
+            // createImageCopy($thisFile, $thisFolder, $thisWidth, 0);
+            createSquareImageCopy($thisFile, $thisFolder, $thisWidth);
 
             $filename =  $_FILES['myfile']['name'];
         }else{
@@ -154,7 +156,7 @@ if(isset($_POST['submit'])) {
         <nav class="mb-5 text-center">
             <a href="add.php" class="btn btn-success">Add</a>
             <a href="edit.php" class="btn btn-warning">Edit</a>
-            <a href="index.php" class="btn btn-dark">Logout</a>
+            <a href="logout.php" class="btn btn-dark">Logout</a>
         </nav>
 </div>
 
@@ -167,32 +169,25 @@ if(isset($_POST['submit'])) {
 <?php endif;?>
     <div class="mb-3">
         <label for="beer_name" class="form-label">Beer Name:</label>
-        <input type="text" name="beer_name" id="beer_name" class="form-control" value="<?php if(isset($_POST['beer_name'])) echo $_POST['beer_name']; ?>" required>
+        <input type="text" name="beer_name" id="beer_name" class="form-control" value="<?php if(isset($_POST['beer_name'])) echo $_POST['beer_name']; ?>">
     </div>
     <div class="mb-3">
                     <label for="brewery_name" class="form-label">Brewery Name</label>
                     <select name="brewery_name" id="brewery_name" class="form-select form-select">
                         <?php 
                             $brewery_names = ['Select Brewery' => 'Select Brewery',
-                            'Ale Architect' => 'Ale Architect',
                             'Alley Kat Brewing Company' => 'Alley Kat Brewing Company',
                             'Analog Brewing Company' => 'Analog Brewing Company',
-                            'Arcadia Brewing Co.' => 'Arcadia Brewing Co.',
-                            'Asymmetrical Brewing' => 'Asymmetrical Brewing',
                             'Bent Stick Brewing Co.' => 'Bent Stick Brewing Co.',
                             'Blind Enthusiasm Brewing Company' => 'Blind Enthusiasm Brewing Company',
                             'Campio Brewing Co.' => 'Campio Brewing Co.',
                             'Irrational Brewing company' => 'Irrational Brewing company',
-                            'Longroof Brewing Co.' => 'Longroof Brewing Co.',
-                            'Odd Company Brewing' => 'Odd Company Brewing',
                             'Omen Brewing' => 'Omen Brewing',
-                            'Polyrythm Brewery' => 'Polyrythm Brewery',
                             'Sea Change Brewing Co.' => 'Sea Change Brewing Co.',
                             'SYC Brewing Co.' => 'SYC Brewing Co.',
                             'The Growlery Beer Co.' => 'The Growlery Beer Co.',
-                            'The Monolith' => 'The Monolith',
-                            'Town Square Brewing Co.' => 'Town Square Brewing Co.',
-                            'Trial & Ale Brewing Company Inc.' => 'Trial & Ale Brewing Company Inc.'];
+                            'Town Square Brewing Co.' => 'Town Square Brewing Co.'
+                            ];
 
                             foreach($brewery_names as $key => $value) {
                                 $selected = isset($_POST['brewery_name']) && $_POST['brewery_name'] == $key ?'selected':'';
@@ -203,7 +198,7 @@ if(isset($_POST['submit'])) {
                 </div>
                 <div class="mb-3">
                     <label for="url" class="form-label">Embed Map URL</label>
-                    <input type="text" name="url" id="url" class="form-control" value="<?php if(isset($_POST['url'])) echo $_POST['url']; ?>" required>
+                    <input type="text" name="url" id="url" class="form-control" value="<?php if(isset($_POST['url'])) echo $_POST['url']; ?>" >
                 </div>
                     <div class="mb-3">
                         <label for="style" class="style">Beer Style</label>
@@ -234,15 +229,15 @@ if(isset($_POST['submit'])) {
                 
                 <div class="mb-3">
                     <label for="abv" class="form-label">ABV % </label>
-                    <input type="text" name="abv" id="abv" class="form-control" value="<?php if(isset($_POST['abv'])) echo $_POST['abv']; ?>" required>
+                    <input type="text" name="abv" id="abv" class="form-control" value="<?php if(isset($_POST['abv'])) echo $_POST['abv']; ?>" >
                 </div>
                 <div class="mb-3">
                     <label for="ibu" class="form-label">IBU</label>
-                    <input type="text" name="ibu" id="ibu" class="form-control" value="<?php if(isset($_POST['ibu'])) echo $_POST['ibu']; ?>" required>
+                    <input type="text" name="ibu" id="ibu" class="form-control" value="<?php if(isset($_POST['ibu'])) echo $_POST['ibu']; ?>" >
                 </div>
                 <div class="mb-3">
                     <label for="beer_color" class="form-label">Beer Color</label>
-                    <input type="text" name="beer_color" id="beer_color" class="form-control" value="<?php if(isset($_POST['beer_color'])) echo $_POST['beer_color']; ?>" required>
+                    <input type="text" name="beer_color" id="beer_color" class="form-control" value="<?php if(isset($_POST['beer_color'])) echo $_POST['beer_color']; ?>" >
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Beer Description</label>
@@ -250,7 +245,7 @@ if(isset($_POST['submit'])) {
                 </div>
                 <div class="mb-3">
                     <label for="myfile" class="form-label">Beer Cover Art</label>
-                    <input type="file" class="form-control" id="myfile" name="myfile" required>
+                    <input type="file" class="form-control" id="myfile" name="myfile" >
                 </div>
          
                 <input type="submit" value="Add Beer" name="submit" class="btn btn-success">
