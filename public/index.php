@@ -30,7 +30,7 @@ include("includes/header.php");
     <ul class="results">
         <?php foreach ($breweries as $beerId => $breweryName): ?>
             <li class="result">
-                <a href="filter.php?displayby=<?php echo urlencode('brewery_name'); ?>&displayvalue=<?php echo urlencode($breweryName . '%'); ?>">
+                <a href="filter.php?displayby=<?php echo urlencode('brewery_name'); ?>&displayvalue=<?php echo urlencode($breweryName); ?>">
                     <img src="img/<?php $beer = select_beer_by_id($beerId); echo "$beer[brewery_logo]"; ?>" width="500" height="500" alt="">
                 </a>
             </li>

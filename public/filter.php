@@ -54,7 +54,7 @@ $beer_search = isset($_GET['beer_search']) ? $_GET['beer_search'] : '';
                     echo "<div class=\"beer-content\">";
                     echo "\n <h3>$beer_name</h3>";
                     echo "\n <p>$description</p>";
-                    echo "<a href=\"single.php?beer_id=$beer_id\" class=\"button\"> Click to find out more! </a> ";
+                    echo "<a href=\"single.php?beer_id=$beer_id\" class=\"card-button\"> Click to find out more! </a> ";
                     echo "</div>";
                     echo "</div>";
                 }
