@@ -1,4 +1,8 @@
 <?php
+$displayby = isset($_GET['displayby']) ? $_GET['displayby'] : "";
+$max = isset($_GET['max']) ? $_GET['max'] : "";
+$min = isset($_GET['min']) ? $_GET['min'] : "";
+$beer_search = isset($_GET['beer_search']) ? $_GET['beer_search'] : '';
 // Select 
 $select_statement = $connection->prepare("SELECT * FROM edmonton_beer");
 // Select Specific Beer
@@ -14,27 +18,59 @@ $update_statement = $connection->prepare("UPDATE edmonton_beer SET beer_name = ?
 // Delete
 $delete_statement = $connection->prepare("DELETE FROM edmonton_beer WHERE beer_id = ?");
 
-
+// 
 // Database error
 function handle_database_error($statement) {
     global $connection;
     die("Error in" . $statement . "Error Details" . $connection->error);
 }
 
-function get_all_beers(){
-    global $connection;
-    global $select_statement;
 
-    if(!$select_statement->execute()){
-        handle_database_error("fetching cities");
+function get_all_beers(){
+    global $connection, $select_statement, $displayby, $displayvalue, $max, $min, $beer_search;
+    
+    if ($displayby && $displayvalue){
+        $query = "SELECT * FROM edmonton_beer WHERE $displayby LIKE ?";
+        $select_statement->prepare($query);
+        $select_statement->bind_param("s", $displayvalue);
     }
+    elseif($displayby && $max && $min){
+        $query = "SELECT * FROM edmonton_beer WHERE $displayby BETWEEN ? AND ?";
+        $select_statement->prepare($query);
+        $select_statement->bind_param("ss", $min, $max);
+    }
+    elseif($beer_search){
+        $query = "SELECT * FROM edmonton_beer WHERE beer_name LIKE ? OR
+                                                    brewery_name LIKE ? OR
+                                                    style LIKE ? OR
+                                                    description LIKE ? OR
+                                                    abv LIKE ? OR
+                                                    ibu LIKE ?";
+        $query_param = "%" . $beer_search . "%";
+        $select_statement->prepare($query);
+        $select_statement->bind_param("ssssss", $query_param, $query_param, $query_param, $query_param, $query_param, $query_param);
+    }
+     else {
+        $query = "SELECT * FROM edmonton_beer";
+        $select_statement->prepare($query);
+    }
+
+    if (!$select_statement->execute()){
+        handle_database_error("fetching beers");
+    }
+
     $result = $select_statement->get_result();
+
     $beers = [];
-    while($row = $result->fetch_assoc()){
+    while ($row = $result->fetch_assoc()){
         $beers[] = $row;
     }
+
+    $select_statement->close();
+
     return $beers;
 }
+
 
 function insert_beer($beer_name, $brewery_name, $url, $style, $abv, $ibu, $beer_color, $filename, $description){
 

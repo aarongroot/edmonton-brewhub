@@ -16,9 +16,9 @@ include("includes/header.php");
 </div>
 <div>
 <nav class="mb-5 text-center">
-            <a href="add.php" class="btn btn-success">Add</a>
-            <a href="edit.php" class="btn btn-warning">Edit</a>
-            <a href="logout.php" class="btn btn-dark">Logout</a>
+            <a href="add.php" class="button">Add</a>
+            <a href="edit.php" class="button">Edit</a>
+            <a href="logout.php" class="button">Logout</a>
         </nav>
 </div>
 

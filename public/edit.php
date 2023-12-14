@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (!isset($_SESSION['agafgdfsdghshfgshfghndnmrsegsfgsd'])){
+    header("location:login.php");
+}
 require_once("/home/agroot2/data/connect.php");
 $beer_id = "";
 
@@ -19,14 +23,14 @@ include("includes/header.php");
 </div>
 <div>
 <nav class="mb-5 text-center">
-            <a href="add.php" class="btn btn-success">Add</a>
-            <a href="edit.php" class="btn btn-warning">Edit</a>
-            <a href="logout.php" class="btn btn-dark">Logout</a>
+            <a href="add.php" class="button">Add</a>
+            <a href="edit.php" class="button">Edit</a>
+            <a href="logout.php" class="button">Logout</a>
         </nav>
 
 </div>
 
-<section>
+<section class="container">
         <h1 class="fw-light text-center mt-5">Update Existing Beer</h1>
         <p class="text-muted mb-5 text-center">To edit a Beer, Please select one from the list below and click "Edit". If you would like to delete a beer click "Delete"</p>
         <?php 

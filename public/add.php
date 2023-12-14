@@ -148,15 +148,16 @@ if(isset($_POST['submit'])) {
      }
 }
 ?>
-<div class="container text-center">
-    <h1>Add A New Beer</h1>
-    <p>To add a beer to my database, simply fill out the form below and hit "Add Beer".</p>
-</div>
+<div class="container">
+    <div class="text-center">
+        <h2>Add A New Beer</h2>
+        <p>To add a beer to my database, simply fill out the form below and hit "Add Beer".</p>
+    </div>
 <div>
         <nav class="mb-5 text-center">
-            <a href="add.php" class="btn btn-success">Add</a>
-            <a href="edit.php" class="btn btn-warning">Edit</a>
-            <a href="logout.php" class="btn btn-dark">Logout</a>
+            <a href="add.php" class="button">Add</a>
+            <a href="edit.php" class="button">Edit</a>
+            <a href="logout.php" class="button">Logout</a>
         </nav>
 </div>
 
@@ -248,7 +249,7 @@ if(isset($_POST['submit'])) {
                     <input type="file" class="form-control" id="myfile" name="myfile" >
                 </div>
          
-                <input type="submit" value="Add Beer" name="submit" class="btn btn-success">
+                <input type="submit" value="Add Beer" name="submit" class="button mb-5">
 </form>
-
+</div>
 <?php include("includes/footer.php"); ?>
